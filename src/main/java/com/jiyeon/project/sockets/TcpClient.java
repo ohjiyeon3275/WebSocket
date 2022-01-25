@@ -1,10 +1,10 @@
-package com.jiyeon.project.testcode;
+package com.jiyeon.project.sockets;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class TcpClientTest {
+public class TcpClient {
     public static void main(String[] args) throws IOException {
 
         InetAddress localHost = InetAddress.getLocalHost();
