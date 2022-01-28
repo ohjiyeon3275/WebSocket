@@ -1,4 +1,4 @@
-package com.jiyeon.project.sockets.chatting;
+package com.jiyeon.project.chatting.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;

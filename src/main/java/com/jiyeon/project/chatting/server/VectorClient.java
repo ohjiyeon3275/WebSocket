@@ -1,6 +1,4 @@
-package com.jiyeon.project.sockets.chatting;
-
-import ch.qos.logback.core.net.server.Client;
+package com.jiyeon.project.chatting.server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
