@@ -8,94 +8,70 @@
     <title>Document</title>
 </head>
 
-<body>
-
-<button type="button" id="send"> send </button>
-<button type="button" id="send-private"> send private</button>
-<button type="button" id="notification"> notification </button>
-
-<div>message</div>
-<input type="text" id="message"/>
-
-<div>notifications</div>
-<div id="notifications"></div>
-
-</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript"></script>
+<script src="sockjs.min.js"></script>
+<script src="stomp.min.js"></script>
 
 <script>
     var stompClient = null;
-    var notificationCount = 0;
 
     $(document).ready(function() {
-        console.log("Index page is ready");
+        console.log("index page is on");
         connect();
 
-        $("#send").click(function() {
+        $("#send").click(function(){
             sendMessage();
-        });
-
-        $("#send-private").click(function() {
-            sendPrivateMessage();
-        });
-
-        $("#notifications").click(function() {
-            resetNotificationCount();
-        });
-    });
+        })
+    })
 
     function connect() {
         var socket = new SockJS('/jy-websocket');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
-            updateNotificationDisplay();
-            stompClient.subscribe('/sockets/msg', function (message) {
+            stompClient.subscribe('/sockets/msge', function ( message ) {
                 showMessage(JSON.parse(message.body).content);
-            });
-
-            stompClient.subscribe('/user/socket/private-msg', function (message) {
-                showMessage(JSON.parse(message.body).content);
-            });
-
-            stompClient.subscribe('/socket/global-notifications', function (message) {
-                notificationCount = notificationCount + 1;
-                updateNotificationDisplay();
-            });
-
-            stompClient.subscribe('/user/socket/private-notifications', function (message) {
-                notificationCount = notificationCount + 1;
-                updateNotificationDisplay();
             });
         });
     }
-
     function showMessage(message) {
-        $("#messages").append("<tr><td>" + message + "</td></tr>");
+        $("#messages").append("<tr><td>" + message + +"</td></tr>");
     }
-
     function sendMessage() {
         console.log("sending message");
-        stompClient.send("/ws/message", {}, JSON.stringify({'messageContent': $("#message").val()}));
-    }
-
-    function sendPrivateMessage() {
-        console.log("sending private message");
-        stompClient.send("/ws/private-message", {}, JSON.stringify({'messageContent': $("#private-message").val()}));
-    }
-
-    function updateNotificationDisplay() {
-        if (notificationCount == 0) {
-            $('#notifications').hide();
-        } else {
-            $('#notifications').show();
-            $('#notifications').text(notificationCount);
-        }
-    }
-
-    function resetNotificationCount() {
-        notificationCount = 0;
-        updateNotificationDisplay();
+        stompClient.send("/jy/msgee", {}, JSON.stringify({'messageContent': $("#message").val()}));
     }
 
 </script>
+<body>
+
+    <div>
+        <form>
+            <input type="text" id="message">
+            <button type="button" id="send"> send </button>
+
+        </form>
+    </div>
+
+    <button type="button" id="send-private"> send private</button>
+    <button type="button" id="notification"> notification </button>
+
+
+    <div>notifications</div>
+    <div id="notifications"></div>
+
+    <div>message</div>
+    <table style="background-color:gold">
+        <thead>
+        <tr><td></td></tr>
+        </thead>
+        <tbody id="messages">
+
+        </tbody>
+    </table>
+
+</body>
+
+
+
 </html>

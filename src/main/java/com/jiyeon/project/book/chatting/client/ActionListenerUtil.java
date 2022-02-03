@@ -1,4 +1,4 @@
-package com.jiyeon.project.chatting.client;
+package com.jiyeon.project.book.chatting.client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,7 +6,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import static com.jiyeon.project.chatting.client.ChattingClient.*;
+import static com.jiyeon.project.book.chatting.client.ChattingClient.*;
 
 
 public class ActionListenerUtil {

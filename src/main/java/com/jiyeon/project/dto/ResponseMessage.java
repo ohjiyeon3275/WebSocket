@@ -11,5 +11,7 @@ import lombok.Setter;
 @Setter
 public class ResponseMessage {
 
+    //ResponseMessage is like dto, to transfer datas;
+
     private String content;
 }

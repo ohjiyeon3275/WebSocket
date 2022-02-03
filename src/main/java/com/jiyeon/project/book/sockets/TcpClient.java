@@ -1,4 +1,4 @@
-package com.jiyeon.project.sockets;
+package com.jiyeon.project.book.sockets;
 
 import java.io.*;
 import java.net.InetAddress;

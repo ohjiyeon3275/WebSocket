@@ -9,13 +9,14 @@ import org.springframework.web.util.HtmlUtils;
 @Controller
 public class MainController {
 
-    @MessageMapping("/msg")
-    @SendTo("/sockets/msg")
+    @MessageMapping("/msgee")
+    @SendTo("/sockets/msge")
     public ResponseMessage getMessage(Message message) throws InterruptedException {
 
-        Thread.sleep(1000);
-        return new ResponseMessage(HtmlUtils.htmlEscape(message.getMessageContents()));
+        System.out.println("컨트롤러를 타나?");
+        Thread.sleep(1000); // 1 sec.
+
+        return new ResponseMessage(HtmlUtils.htmlEscape(message.getMessageContent()));
 
     }
-
 }

@@ -1,4 +1,4 @@
-package com.jiyeon.project.chatting.client;
+package com.jiyeon.project.book.chatting.client;
 
 import java.awt.*;
 import java.io.DataInputStream;
