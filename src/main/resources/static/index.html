@@ -21,6 +21,9 @@
         $("#send").click(function(){
             sendMessage();
         })
+        $("#send-private").click(function(){
+            sendPrivateMessage();
+        })
     })
 
     function connect() {
@@ -29,6 +32,11 @@
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/sockets/msge', function (message) {
+                showMessage(JSON.parse(message.body).content);
+            });
+
+
+            stompClient.subscribe('/user/sockets/private-msge', function (message) {
                 showMessage(JSON.parse(message.body).content);
             });
         });
@@ -43,8 +51,13 @@
         stompClient.send("/jy/msgee", {}, JSON.stringify({'messageContent': $("#message").val()}));
     }
 
+    function sendPrivateMessage() {
+        console.log("sending private message");
+        stompClient.send("/jy/private-msgee", {}, JSON.stringify({'messageContent': $("#private-message").val()}));
+    }
+
 </script>
-<body>
+<body style="left:300px;top:300px">
 
     <div>
         <form>
@@ -54,7 +67,13 @@
         </form>
     </div>
 
-    <button type="button" id="send-private"> send private</button>
+    <div>
+        <form>
+            <input type="text" id="private-message">
+            <button type="button" id="send-private"> send private</button>
+        </form>
+    </div>
+
     <button type="button" id="notification"> notification </button>
 
 

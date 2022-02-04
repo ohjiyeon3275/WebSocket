@@ -1,5 +1,6 @@
 package com.jiyeon.project.config;
 
+import com.jiyeon.project.handler.UserHandShakeHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -32,6 +33,8 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 
-        registry.addEndpoint("/jy-websocket").withSockJS();
+        registry.addEndpoint("/jy-websocket")
+                .setHandshakeHandler(new UserHandShakeHandler())
+                .withSockJS();
     }
 }

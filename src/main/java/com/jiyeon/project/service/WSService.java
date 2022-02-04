@@ -16,4 +16,10 @@ public class WSService {
 
         simpMessagingTemplate.convertAndSend("/sockets/msge", responseMessage);
     }
+
+    public void notifyUser(String id, String message){
+        ResponseMessage responseMessage = new ResponseMessage(message);
+
+        simpMessagingTemplate.convertAndSendToUser(id,"/sockets/private-msge", responseMessage);
+    }
 }
