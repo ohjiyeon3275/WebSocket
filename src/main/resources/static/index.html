@@ -14,6 +14,7 @@
 
 <script>
     var stompClient = null;
+    var notificationCount = 0;
 
     $(document).ready(function() {
         console.log("index page is on");
@@ -24,6 +25,9 @@
         $("#send-private").click(function(){
             sendPrivateMessage();
         })
+        $("#notification").click(function(){
+            resetNotification();
+        })
     })
 
     function connect() {
@@ -31,13 +35,25 @@
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
+
+            updateNotification()
+
             stompClient.subscribe('/sockets/msge', function (message) {
                 showMessage(JSON.parse(message.body).content);
             });
 
-
             stompClient.subscribe('/user/sockets/private-msge', function (message) {
                 showMessage(JSON.parse(message.body).content);
+            });
+
+            stompClient.subscribe('/sockets/global-notification', function () {
+                notificationCount ++;
+                updateNotification()
+            });
+
+            stompClient.subscribe('/user/sockets/private-notification', function () {
+                notificationCount++;
+                updateNotification();
             });
         });
     }
@@ -54,6 +70,21 @@
     function sendPrivateMessage() {
         console.log("sending private message");
         stompClient.send("/jy/private-msgee", {}, JSON.stringify({'messageContent': $("#private-message").val()}));
+    }
+
+    function updateNotification() {
+        console.log("notification updated");
+        if(notificationCount == 0){
+            $("#notifications").hide()
+        } else {
+            $("#notifications").show();
+            $("#notifications").text(notificationCount)
+        }
+    }
+
+    function resetNotification() {
+        notificationCount = 0;
+        updateNotification();
     }
 
 </script>
@@ -74,11 +105,11 @@
         </form>
     </div>
 
-    <button type="button" id="notification"> notification </button>
+    <button type="button" id="notification"> notification reset</button>
 
 
     <div>notifications</div>
-    <div id="notifications"></div>
+    <span id="notifications"></span>
 
     <div>message</div>
     <table style="background-color:gold">
